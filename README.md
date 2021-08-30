@@ -24,16 +24,19 @@ struct Foo{A,B}
     b::B
 end
 ```
-This recovers the flexibility of optional typing and preserves the performance of compile-time types, but keeping the fields and type parameters in sync can be quite laborious.
+This recovers the flexibility of optional typing and preserves the performance of compile-time types, but keeping the fields and type parameters in sync can be laborious.
 
-This package resolves this conflict by introducing a macro `@typeparams` which allows us to insert "generic" type parameters like the ones above using a simple syntax:
+
+## Usage
+
+This package eliminates the fuss of generic type parameters by introducing a macro `@typeparams` which allows us to insert such type parameters using a simple syntax:
 ```julia
 @typedef struct Foo
     a::{}
     b::{}
 end
 ```
-It further allows us to specify type constraints with zero overhead:
+It further supports expressing type constraints with zero syntax overhead:
 ```julia
 @typedef struct Foo
     a::{<:Integer}
@@ -41,27 +44,30 @@ It further allows us to specify type constraints with zero overhead:
 end
 ```
 Finally, `@typeparams` plays well with other features of the Julia language:
-```julia
-@typeparams struct MyVector{T} <: AbstractVector{T}
-    data::{<:AbstractVector{T}}
-end
-Base.size(v::MyVector) = size(v.data)
-Base.getindex(v::MyVector, i::Int) = v.data[i]
 
-julia> MyVector([1,2,3])
-3-element MyVector{Int64, Vector{Int64}}:
-...
-```
+ - Explicit type parameters:
+   ```julia
+   @typeparams struct MyVector{T} <: AbstractVector{T}
+       data::{<:AbstractVector{T}}
+   end
+   Base.size(v::MyVector) = size(v.data)
+   Base.getindex(v::MyVector, i::Int) = v.data[i]
 
-```julia
-Base.@kwdef @typeparams struct Foo
-    a::{} = 1
-    b::{} = 1.0
-end
+   julia> MyVector([1,2,3])
+   3-element MyVector{Int64, Vector{Int64}}:
+   ...
+   ```
 
-julia> Foo()
-Foo{Int64, Float64}(1, 1.0)
-```
+ - The `@kwdef` macro:
+    ```julia
+    Base.@kwdef @typeparams struct Foo
+        a::{} = 1
+        b::{} = 1.0
+    end
+
+    julia> Foo()
+    Foo{Int64, Float64}(1, 1.0)
+    ```
 
 ## Acknowledgements
 
