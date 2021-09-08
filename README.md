@@ -29,7 +29,7 @@ This recovers the flexibility of optional typing and preserves the performance o
 
 ## Usage
 
-This package eliminates the fuss of generic type parameters by introducing a macro `@typeparams` which allows us to insert such type parameters using a simple syntax:
+This package eliminates the fuss of generic type parameters by introducing a macro `@typeparams` which allows you to insert such type parameters using a simple syntax:
 ```julia
 @typedef struct Foo
     a::{}
