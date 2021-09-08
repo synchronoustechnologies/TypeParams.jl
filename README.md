@@ -69,6 +69,20 @@ Finally, `@typeparams` plays well with other features of the Julia language:
     Foo{Int64, Float64}(1, 1.0)
     ```
 
+
+## Missing features
+
+- `TypeParams` currently does not play very well with inner constructors. For example, the following currently does not work:
+  ```julia
+  @typeparams struct Foo
+      a::{}
+      b::{}
+      Foo() = new(1,1.0)
+  end
+  ```
+
+PRs are welcome!
+
 ## Acknowledgements
 
 This package is heavily inspired by [AutoParameters.jl](https://github.com/pengwyn/AutoParameters.jl).
