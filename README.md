@@ -31,14 +31,14 @@ This recovers the flexibility of optional typing and preserves the performance o
 
 This package eliminates the fuss of generic type parameters by introducing a macro `@typeparams` which allows you to insert such type parameters using a simple syntax:
 ```julia
-@typedef struct Foo
+@typeparams struct Foo
     a::{}
     b::{}
 end
 ```
 It further supports expressing type constraints with zero syntax overhead:
 ```julia
-@typedef struct Foo
+@typeparams struct Foo
     a::{<:Integer}
     b::{<:Real}
 end
